@@ -8,11 +8,17 @@ import os
 time_from_start = int(time())
 print("""
 ░▄▀▀░▄▀▀▒█▀▄▒██▀▒██▀░█▄░█░▄▀▀░█▄█░▄▀▄░▀█▀▒██▀▒█▀▄
-▒▄██░▀▄▄░█▀▄░█▄▄░█▄▄░█▒▀█▒▄██▒█▒█░▀▄▀░▒█▒░█▄▄░█▀▄ v1.0
+▒▄██░▀▄▄░█▀▄░█▄▄░█▄▄░█▒▀█▒▄██▒█▒█░▀▄▀░▒█▒░█▄▄░█▀▄ v1.1
 New day, new adventures!
 
 """)
 print("All modules loaded!")
+
+banned_raw = open("banned.list")
+banned = banned_raw.read().split("\n")
+banned_raw.close()
+
+print("Loaded banlist")
 
 app = Flask(__name__)
 print("Created Flask app")
@@ -27,6 +33,10 @@ def screenshot(page):
 
     now = datetime.now()
     screenshot_name = now.strftime("./screenshots/%Y-%m-%d %H:%M:%S.png")
+    
+    if page in banned:
+        page = "file://" + os.path.dirname(os.path.abspath(__file__)) + "/pages/banned.html"
+    
     
     driver.get(page)
     driver.save_screenshot(screenshot_name)
