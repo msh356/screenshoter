@@ -14,6 +14,11 @@ New day, new adventures!
 """)
 print("All modules loaded!")
 
+index_raw = open("pages/index.html")
+index = index_raw.read()
+index_raw.close()
+print("Index page loaded!")
+
 banned_raw = open("banned.list")
 banned = banned_raw.read().split("\n")
 banned_raw.close()
@@ -27,7 +32,11 @@ driver = webdriver.Chrome(service=service)
 print("Loaded service")
 
 @app.route('/<path:page>')
-def screenshot(page):
+@app.route('/')
+def screenshot(page=None):
+    if not page:
+        return index
+
     if not page.startswith("http://") and not page.startswith("https://"):
         page = "http://" + page
 
