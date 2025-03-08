@@ -1,4 +1,4 @@
-# Screenshoter ![badge](https://badgen.net/badge/version/1.3)
+# Screenshoter ![badge](https://badgen.net/badge/version/1.4)
 Screenshoter - is VERY simple web screenshoter, using Python, Selenium and Flask. It's my first public project. This program makes an API, where you can enter web page and get it's screenshot. **Warning: Project is very unsecure and unstable.**
 ## Installing
 ### Linux:

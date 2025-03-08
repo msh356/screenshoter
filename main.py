@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from flask import Flask, send_file
 from datetime import datetime
 import os
+from modules.properties_parser import parse
 
 time_from_start = int(time())
 print("""
@@ -13,6 +14,14 @@ New day, new adventures!
 
 """)
 print("All modules loaded!")
+
+config_raw = open("server.properties")
+config = config_raw.read()
+config = parse(config)
+config_raw.close()
+
+print("Config imported!")
+print(config)
 
 index_raw = open("pages/index.html")
 index = index_raw.read()
@@ -34,12 +43,15 @@ print("Loaded service")
 @app.route('/<path:page>')
 @app.route('/')
 def screenshot(page=None):
-    if not page:
-        return index
-
-    if not page.startswith("http://") and not page.startswith("https://"):
-        page = "http://" + page
-
+    try:
+        if not page.startswith("http://") and not page.startswith("https://"):
+            page = "http://" + page
+    except AttributeError:
+        if config["send_service_pages_as"] == "html":
+            return index
+        elif config["send_service_pages_as"] == "image":
+            page = "file://" + os.path.dirname(os.path.abspath(__file__)) + "/pages/index.html"
+    
     now = datetime.now()
     screenshot_name = now.strftime("./screenshots/%Y-%m-%d %H:%M:%S.png")
     
@@ -58,6 +70,6 @@ if __name__ == '__main__':
     time_for_start = int(time()) - time_from_start
     print("I am ready in " + str(time_for_start) + "s. Starting Flask app...")
     from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    serve(app, host="0.0.0.0", port=config["port"])
 
 driver.quit()
