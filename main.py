@@ -9,7 +9,7 @@ from modules.properties_parser import parse
 time_from_start = int(time())
 print("""
 ░▄▀▀░▄▀▀▒█▀▄▒██▀▒██▀░█▄░█░▄▀▀░█▄█░▄▀▄░▀█▀▒██▀▒█▀▄
-▒▄██░▀▄▄░█▀▄░█▄▄░█▄▄░█▒▀█▒▄██▒█▒█░▀▄▀░▒█▒░█▄▄░█▀▄ v1.2
+▒▄██░▀▄▄░█▀▄░█▄▄░█▄▄░█▒▀█▒▄██▒█▒█░▀▄▀░▒█▒░█▄▄░█▀▄ v1.5
 New day, new adventures!
 
 """)
@@ -21,7 +21,10 @@ config = parse(config)
 config_raw.close()
 
 print("Config imported!")
-print(config)
+
+if config["ascii_arting"] == "true":
+    from modules.ascii_arting import ascii_art
+    print("Loaded ASCII arting because it's turned on in config (ascii_arting=true)")
 
 index_raw = open("pages/index.html")
 index = index_raw.read()
@@ -63,6 +66,25 @@ def screenshot(page=None):
     driver.save_screenshot(screenshot_name)
 
     return send_file(screenshot_name, mimetype='image/png')
+
+@app.route("/ascii/<path:page>")
+def ascii_screenshot(page):
+    if config["ascii_arting"] == "true":
+        if not page.startswith("http://") and not page.startswith("https://"):
+            page = "http://" + page
+        now = datetime.now()
+        screenshot_name = now.strftime("./screenshots/%Y-%m-%d %H:%M:%S.png")
+    
+        if page in banned:
+            page = "file://" + os.path.dirname(os.path.abspath(__file__)) + "/pages/banned.html"
+    
+    
+        driver.get(page)
+        driver.save_screenshot(screenshot_name)
+
+        return ascii_art(screenshot_name)
+    else:
+        return "Not enabled on this server."
 
 print("Defined routes")
 

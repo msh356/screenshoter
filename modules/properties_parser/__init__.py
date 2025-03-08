@@ -1,3 +1,7 @@
+"""
+Module for parsing properties
+in Screenshoter
+"""
 def parse(properties=str):
     properties = properties.split("\n")
     result = {}

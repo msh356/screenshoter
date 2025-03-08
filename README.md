@@ -1,4 +1,4 @@
-# Screenshoter ![badge](https://badgen.net/badge/version/1.4)
+# Screenshoter ![badge](https://badgen.net/badge/version/1.5)
 Screenshoter - is VERY simple web screenshoter, using Python, Selenium and Flask. It's my first public project. This program makes an API, where you can enter web page and get it's screenshot. **Warning: Project is very unsecure and unstable.**
 ## Installing
 ### Linux:
@@ -7,7 +7,7 @@ Screenshoter - is VERY simple web screenshoter, using Python, Selenium and Flask
     python3 -m venv env
     source ./env/bin/activate
     pip install flask selenium waitress
-You also need to be `chromedriver`, `geckodriver` or any other web driver installed on your system.
+You also need to be `chromedriver`, `geckodriver` or any other web driver installed on your system. To ASCII-arting function work, install Pillow and Numpy modules
 ### Windows
 Download .zip file of screenshoter
 
@@ -15,7 +15,7 @@ Download .zip file of screenshoter
     python -m venv env
     env/bin/Activate.ps1
     pip install flask selenium waitress
-You also need to be `chromedriver`, `geckodriver` or any other web driver installed on your system.
+You also need to be `chromedriver`, `geckodriver` or any other web driver installed on your system. To ASCII-arting function work, install Pillow and Numpy modules
 ## Using
 In first, we need to start:
 ### Linux
